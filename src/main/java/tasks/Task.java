@@ -26,4 +26,22 @@ public class Task {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Task task = (Task) o;
+
+        if (getTitle() != null ? !getTitle().equals(task.getTitle()) : task.getTitle() != null) return false;
+        return getDate() != null ? getDate().equals(task.getDate()) : task.getDate() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getTitle() != null ? getTitle().hashCode() : 0;
+        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
+        return result;
+    }
 }

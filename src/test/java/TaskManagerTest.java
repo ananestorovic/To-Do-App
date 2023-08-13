@@ -34,6 +34,9 @@ class TaskManagerTest {
         LocalDate targetDate = LocalDate.of(2023, 8, 5);
         List<Task> tasksOnDate = taskManager.searchByDate(targetDate);
 
+        Assertions.assertFalse(tasksOnDate.isEmpty());
+        Assertions.assertEquals(newTask2, tasksOnDate.get(0));
+
     }
 
 }

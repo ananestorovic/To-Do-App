@@ -1,7 +1,9 @@
 package tasks;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TaskManager {
 
@@ -17,5 +19,11 @@ public class TaskManager {
 
     public void addTask(Task task){
         tasks.add(task);
+    }
+
+    public List<Task> searchByDate(LocalDate targetDate) {
+        return tasks.stream()
+                .filter(task -> task.getDate().equals(targetDate))
+                .collect(Collectors.toList());
     }
 }
