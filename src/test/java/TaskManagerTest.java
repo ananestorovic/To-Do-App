@@ -39,7 +39,7 @@ class TaskManagerTest {
     }
 
     @Test
-    public void testDeleteByDate() {
+    void testDeleteByDate() {
         LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
         LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
         Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
@@ -51,6 +51,11 @@ class TaskManagerTest {
 
         LocalDate targetDate = LocalDate.of(2023, 8, 5);
         taskManager.deleteByDate(targetDate);
+
+        List<Task> tasksOnDate = taskManager.searchByDate(targetDate);
+        Assertions.assertTrue(tasksOnDate.isEmpty());
+
+
     }
 
 }

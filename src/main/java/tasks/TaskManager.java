@@ -26,4 +26,8 @@ public class TaskManager {
                 .filter(task -> task.getDate().equals(targetDate))
                 .collect(Collectors.toList());
     }
+
+    public void deleteByDate(LocalDate targetDate) {
+        tasks.removeIf(task -> task.getDate().equals(targetDate));
+    }
 }
