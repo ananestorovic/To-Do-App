@@ -36,7 +36,21 @@ class TaskManagerTest {
 
         Assertions.assertFalse(tasksOnDate.isEmpty());
         Assertions.assertEquals(newTask2, tasksOnDate.get(0));
+    }
 
+    @Test
+    public void testDeleteByDate() {
+        LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
+        LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2);
+
+        TaskManager taskManager = new TaskManager();
+        taskManager.addTask(newTask1);
+        taskManager.addTask(newTask2);
+
+        LocalDate targetDate = LocalDate.of(2023, 8, 5);
+        taskManager.deleteByDate(targetDate);
     }
 
 }
