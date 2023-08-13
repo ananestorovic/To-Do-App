@@ -79,6 +79,9 @@ class TaskManagerTest {
         LocalDate startDate = LocalDate.of(2023, 7, 1);
         LocalDate endDate = LocalDate.of(2023, 10, 1);
         taskManager.deleteByDateInterval(startDate, endDate);
+
+        Assertions.assertEquals(1, taskManager.getTasks().size());
+        Assertions.assertEquals(newTask5, taskManager.getTasks().get(0));
     }
 
 }

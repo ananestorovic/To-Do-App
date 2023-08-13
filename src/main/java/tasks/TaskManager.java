@@ -30,4 +30,8 @@ public class TaskManager {
     public void deleteByDate(LocalDate targetDate) {
         tasks.removeIf(task -> task.getDate().equals(targetDate));
     }
+
+    public void deleteByDateInterval(LocalDate startDate, LocalDate endDate) {
+        tasks.removeIf(task -> task.getDate().isAfter(startDate) && task.getDate().isBefore(endDate));
+    }
 }
