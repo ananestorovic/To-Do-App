@@ -67,6 +67,24 @@ class TaskManagerTest {
     }
 
     @Test
+    void testSearchByTitle() {
+        LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
+        LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
+        LocalDate taskDate3 = LocalDate.of(2023, 9, 16);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2);
+        Task newTask3 = new Task("Purchase some milk", taskDate3);
+
+        TaskManager taskManager = new TaskManager();
+        taskManager.addTask(newTask1);
+        taskManager.addTask(newTask2);
+        taskManager.addTask(newTask3);
+
+        List<Task> foundTasks = taskManager.searchByTitle("Pay the phone bill");
+
+    }
+
+    @Test
     void testDeleteByDate() {
         LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
         LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
