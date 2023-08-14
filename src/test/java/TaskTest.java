@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+import tasks.Priority;
 import tasks.Task;
 
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ class TaskTest {
     @Test
     void testTaskCreation() {
         LocalDate taskDate = LocalDate.of(2023, 7, 15);
-        Task task = new Task("Schedule a dentist appointment", taskDate);
+        Task task = new Task("Schedule a dentist appointment", taskDate, Priority.HIGH);
 
         assertEquals("Schedule a dentist appointment", task.getTitle());
         assertEquals(taskDate, task.getDate());

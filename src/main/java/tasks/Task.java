@@ -6,9 +6,20 @@ public class Task {
     private String title;
     private LocalDate date;
 
-    public Task(String title, LocalDate date) {
+    private Priority priority;
+
+    public Task(String title, LocalDate date, Priority priority) {
         this.title = title;
         this.date = date;
+        this.priority = priority;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     public String getTitle() {
@@ -35,13 +46,15 @@ public class Task {
         Task task = (Task) o;
 
         if (getTitle() != null ? !getTitle().equals(task.getTitle()) : task.getTitle() != null) return false;
-        return getDate() != null ? getDate().equals(task.getDate()) : task.getDate() == null;
+        if (getDate() != null ? !getDate().equals(task.getDate()) : task.getDate() != null) return false;
+        return getPriority() == task.getPriority();
     }
 
     @Override
     public int hashCode() {
         int result = getTitle() != null ? getTitle().hashCode() : 0;
         result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
+        result = 31 * result + (getPriority() != null ? getPriority().hashCode() : 0);
         return result;
     }
 }

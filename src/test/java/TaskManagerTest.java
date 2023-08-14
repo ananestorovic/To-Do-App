@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tasks.Priority;
 import tasks.Task;
 import tasks.TaskManager;
 
@@ -10,7 +11,7 @@ class TaskManagerTest {
     @Test
     void addTaskToTaskManager() {
         LocalDate taskDate = LocalDate.of(2023, 7, 15);
-        Task newTask = new Task("Schedule a dentist appointment", taskDate);
+        Task newTask = new Task("Schedule a dentist appointment", taskDate, Priority.HIGH);
 
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(newTask);
@@ -24,8 +25,8 @@ class TaskManagerTest {
     void testSearchByDate() {
         LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
         LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
-        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
-        Task newTask2 = new Task("Pay the phone bill", taskDate2);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1, Priority.HIGH);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2, Priority.HIGH);
 
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(newTask1);
@@ -45,11 +46,11 @@ class TaskManagerTest {
         LocalDate taskDate3 = LocalDate.of(2023, 9, 16);
         LocalDate taskDate4 = LocalDate.of(2023, 9, 27);
         LocalDate taskDate5 = LocalDate.of(2020, 1, 12);
-        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
-        Task newTask2 = new Task("Pay the phone bill", taskDate2);
-        Task newTask3 = new Task("Purchase some milk", taskDate3);
-        Task newTask4= new Task("Take the dog for a walk", taskDate4);
-        Task newTask5 = new Task("Buy medicine for a cold", taskDate5);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1, Priority.HIGH);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2, Priority.HIGH);
+        Task newTask3 = new Task("Purchase some milk", taskDate3, Priority.LOW);
+        Task newTask4= new Task("Take the dog for a walk", taskDate4, Priority.HIGH);
+        Task newTask5 = new Task("Buy medicine for a cold", taskDate5, Priority.MEDIUM);
 
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(newTask1);
@@ -71,9 +72,9 @@ class TaskManagerTest {
         LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
         LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
         LocalDate taskDate3 = LocalDate.of(2023, 9, 16);
-        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
-        Task newTask2 = new Task("Pay the phone bill", taskDate2);
-        Task newTask3 = new Task("Purchase some milk", taskDate3);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1, Priority.HIGH);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2, Priority.HIGH);
+        Task newTask3 = new Task("Purchase some milk", taskDate3, Priority.LOW);
 
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(newTask1);
@@ -90,8 +91,8 @@ class TaskManagerTest {
     void testDeleteByDate() {
         LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
         LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
-        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
-        Task newTask2 = new Task("Pay the phone bill", taskDate2);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1, Priority.HIGH);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2, Priority.HIGH);
 
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(newTask1);
@@ -111,11 +112,11 @@ class TaskManagerTest {
         LocalDate taskDate3 = LocalDate.of(2023, 9, 16);
         LocalDate taskDate4 = LocalDate.of(2023, 9, 27);
         LocalDate taskDate5 = LocalDate.of(2020, 1, 12);
-        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
-        Task newTask2 = new Task("Pay the phone bill", taskDate2);
-        Task newTask3 = new Task("Purchase some milk", taskDate3);
-        Task newTask4= new Task("Take the dog for a walk", taskDate4);
-        Task newTask5 = new Task("Buy medicine for a cold", taskDate5);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1, Priority.HIGH);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2, Priority.HIGH);
+        Task newTask3 = new Task("Purchase some milk", taskDate3, Priority.LOW);
+        Task newTask4= new Task("Take the dog for a walk", taskDate4, Priority.HIGH);
+        Task newTask5 = new Task("Buy medicine for a cold", taskDate5, Priority.MEDIUM);
 
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(newTask1);
@@ -138,5 +139,14 @@ class TaskManagerTest {
         LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
         LocalDate taskDate3 = LocalDate.of(2023, 9, 16);
         Task newTask1 = new Task("Schedule a dentist appointment", taskDate1, Priority.HIGH);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2, Priority.HIGH);
+        Task newTask3 = new Task("Purchase some milk", taskDate3, Priority.LOW);
+
+        TaskManager taskManager = new TaskManager();
+        taskManager.addTask(newTask1);
+        taskManager.addTask(newTask2);
+        taskManager.addTask(newTask3);
+
+        List<Task> foundTasks = taskManager.searchByPriority(Priority.LOW);
     }
 }
