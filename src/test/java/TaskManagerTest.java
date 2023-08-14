@@ -131,4 +131,12 @@ class TaskManagerTest {
         Assertions.assertEquals(1, taskManager.getTasks().size());
         Assertions.assertEquals(newTask5, taskManager.getTasks().get(0));
     }
+
+    @Test
+    void testSearchByPriority() {
+        LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
+        LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
+        LocalDate taskDate3 = LocalDate.of(2023, 9, 16);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1, Priority.HIGH);
+    }
 }
