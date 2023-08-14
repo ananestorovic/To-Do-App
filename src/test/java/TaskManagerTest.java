@@ -148,5 +148,8 @@ class TaskManagerTest {
         taskManager.addTask(newTask3);
 
         List<Task> foundTasks = taskManager.searchByPriority(Priority.LOW);
+
+        Assertions.assertEquals(1, foundTasks.size());
+        Assertions.assertEquals(newTask3, foundTasks.get(0));
     }
 }

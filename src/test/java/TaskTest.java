@@ -14,5 +14,6 @@ class TaskTest {
 
         assertEquals("Schedule a dentist appointment", task.getTitle());
         assertEquals(taskDate, task.getDate());
+        assertEquals(Priority.HIGH, task.getPriority());
     }
 }

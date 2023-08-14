@@ -5,7 +5,6 @@ import java.time.LocalDate;
 public class Task {
     private String title;
     private LocalDate date;
-
     private Priority priority;
 
     public Task(String title, LocalDate date, Priority priority) {

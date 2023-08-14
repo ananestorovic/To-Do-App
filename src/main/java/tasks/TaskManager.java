@@ -46,4 +46,10 @@ public class TaskManager {
     public void deleteByDateInterval(LocalDate startDate, LocalDate endDate) {
         tasks.removeIf(task -> task.getDate().isAfter(startDate) && task.getDate().isBefore(endDate));
     }
+
+    public List<Task> searchByPriority(Priority targetPriority) {
+        return tasks.stream()
+                .filter(task -> task.getPriority().equals(targetPriority))
+                .collect(Collectors.toList());
+    }
 }
