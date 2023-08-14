@@ -82,6 +82,8 @@ class TaskManagerTest {
 
         List<Task> foundTasks = taskManager.searchByTitle("Pay the phone bill");
 
+        Assertions.assertEquals(1, foundTasks.size());
+        Assertions.assertEquals(newTask2, foundTasks.get(0));
     }
 
     @Test
@@ -129,5 +131,4 @@ class TaskManagerTest {
         Assertions.assertEquals(1, taskManager.getTasks().size());
         Assertions.assertEquals(newTask5, taskManager.getTasks().get(0));
     }
-
 }

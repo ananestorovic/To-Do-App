@@ -33,6 +33,12 @@ public class TaskManager {
                 .collect(Collectors.toList());
     }
 
+    public List<Task> searchByTitle(String targetTitle) {
+        return tasks.stream()
+                .filter(task -> task.getTitle().equals(targetTitle))
+                .collect(Collectors.toList());
+    }
+
     public void deleteByDate(LocalDate targetDate) {
         tasks.removeIf(task -> task.getDate().equals(targetDate));
     }
