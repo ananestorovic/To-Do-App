@@ -27,6 +27,12 @@ public class TaskManager {
                 .collect(Collectors.toList());
     }
 
+    public List<Task> searchByDateInterval(LocalDate startDate, LocalDate endDate) {
+        return tasks.stream()
+                .filter(task -> task.getDate().isAfter(startDate) && task.getDate().isBefore(endDate))
+                .collect(Collectors.toList());
+    }
+
     public void deleteByDate(LocalDate targetDate) {
         tasks.removeIf(task -> task.getDate().equals(targetDate));
     }

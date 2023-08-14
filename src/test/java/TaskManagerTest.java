@@ -58,9 +58,12 @@ class TaskManagerTest {
         taskManager.addTask(newTask4);
         taskManager.addTask(newTask5);
 
-        LocalDate startDate = LocalDate.of(2023, 7, 1);
-        LocalDate endDate = LocalDate.of(2023, 10, 1);
-        taskManager.searchByDateInterval(startDate, endDate);
+        LocalDate startDate = LocalDate.of(2019, 12, 1);
+        LocalDate endDate = LocalDate.of(2020, 12, 1);
+        List<Task> tasksOnDateInterval = taskManager.searchByDateInterval(startDate, endDate);
+
+        Assertions.assertEquals(1, tasksOnDateInterval.size());
+        Assertions.assertEquals(newTask5, tasksOnDateInterval.get(0));
     }
 
     @Test
