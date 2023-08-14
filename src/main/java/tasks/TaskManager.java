@@ -2,6 +2,7 @@ package tasks;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,18 +25,21 @@ public class TaskManager {
     public List<Task> searchByDate(LocalDate targetDate) {
         return tasks.stream()
                 .filter(task -> task.getDate().equals(targetDate))
+                .sorted(Comparator.comparing(Task::getPriority).reversed())
                 .collect(Collectors.toList());
     }
 
     public List<Task> searchByDateInterval(LocalDate startDate, LocalDate endDate) {
         return tasks.stream()
                 .filter(task -> task.getDate().isAfter(startDate) && task.getDate().isBefore(endDate))
+                .sorted(Comparator.comparing(Task::getPriority).reversed())
                 .collect(Collectors.toList());
     }
 
     public List<Task> searchByTitle(String targetTitle) {
         return tasks.stream()
                 .filter(task -> task.getTitle().equals(targetTitle))
+                .sorted(Comparator.comparing(Task::getPriority).reversed())
                 .collect(Collectors.toList());
     }
 

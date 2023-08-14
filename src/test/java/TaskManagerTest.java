@@ -152,4 +152,28 @@ class TaskManagerTest {
         Assertions.assertEquals(1, foundTasks.size());
         Assertions.assertEquals(newTask3, foundTasks.get(0));
     }
+
+    @Test
+    void testSortByPriority() {
+        LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
+        LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
+        LocalDate taskDate3 = LocalDate.of(2023, 9, 16);
+        Task newTask1 = new Task("Purchase some milk", taskDate1, Priority.LOW);
+        Task newTask2 = new Task("Schedule a dentist appointment", taskDate2, Priority.HIGH);
+        Task newTask3 = new Task("Pay the phone bill", taskDate3, Priority.MEDIUM);
+
+        TaskManager taskManager = new TaskManager();
+        taskManager.addTask(newTask1);
+        taskManager.addTask(newTask2);
+        taskManager.addTask(newTask3);
+
+        LocalDate startDate = LocalDate.of(2023, 1, 1);
+        LocalDate endDate = LocalDate.of(2023, 12, 1);
+        List<Task> foundTasks = taskManager.searchByDateInterval(startDate, endDate);
+
+        Assertions.assertEquals(3, foundTasks.size());
+        Assertions.assertEquals(newTask2, foundTasks.get(0));
+        Assertions.assertEquals(newTask3, foundTasks.get(1));
+        Assertions.assertEquals(newTask1, foundTasks.get(2));
+    }
 }
