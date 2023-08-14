@@ -39,6 +39,31 @@ class TaskManagerTest {
     }
 
     @Test
+    void testSearchByDateInterval() {
+        LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
+        LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
+        LocalDate taskDate3 = LocalDate.of(2023, 9, 16);
+        LocalDate taskDate4 = LocalDate.of(2023, 9, 27);
+        LocalDate taskDate5 = LocalDate.of(2020, 1, 12);
+        Task newTask1 = new Task("Schedule a dentist appointment", taskDate1);
+        Task newTask2 = new Task("Pay the phone bill", taskDate2);
+        Task newTask3 = new Task("Purchase some milk", taskDate3);
+        Task newTask4= new Task("Take the dog for a walk", taskDate4);
+        Task newTask5 = new Task("Buy medicine for a cold", taskDate5);
+
+        TaskManager taskManager = new TaskManager();
+        taskManager.addTask(newTask1);
+        taskManager.addTask(newTask2);
+        taskManager.addTask(newTask3);
+        taskManager.addTask(newTask4);
+        taskManager.addTask(newTask5);
+
+        LocalDate startDate = LocalDate.of(2023, 7, 1);
+        LocalDate endDate = LocalDate.of(2023, 10, 1);
+        taskManager.searchByDateInterval(startDate, endDate);
+    }
+
+    @Test
     void testDeleteByDate() {
         LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
         LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
