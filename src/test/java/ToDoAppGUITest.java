@@ -14,11 +14,18 @@ import tasks.ToDoAppGUI;
 class ToDoAppGUITest {
 
     private ToDoAppGUI todoAppGUI;
+    private TaskManager taskManager;
 
     @BeforeEach
     void setUp() {
         todoAppGUI = new ToDoAppGUI();
         todoAppGUI.createAndShowGUI();
+        taskManager = todoAppGUI.getTaskManager();
+    }
+
+    private void addTestTasks() {
+        taskManager.addTask(new Task("Test Task1", LocalDate.of(2023, 8, 10), Priority.HIGH));
+        taskManager.addTask(new Task("Test Task2", LocalDate.of(2023, 8, 12), Priority.LOW));
     }
 
     @Test
@@ -30,10 +37,8 @@ class ToDoAppGUITest {
         todoAppGUI.setTaskTitleField(title);
         todoAppGUI.setDatePickerDate1(date);
         todoAppGUI.setPriorityComboBox(priority);
-
         todoAppGUI.clickAddButton();
 
-        TaskManager taskManager = todoAppGUI.getTaskManager();
         Task addedTask = taskManager.getTasks().get(0);
         assertEquals(title, addedTask.getTitle());
         assertEquals(date, addedTask.getDate());
@@ -42,105 +47,71 @@ class ToDoAppGUITest {
 
     @Test
     void testSearchByDate() {
-        String title1 = "Test Task1";
-        String title2 = "Test Task2";
-        LocalDate date1 = LocalDate.of(2023,8,10);
-        LocalDate date2 = LocalDate.of(2023,8,12);
-        Priority priority1 = Priority.HIGH;
-        Priority priority2 = Priority.LOW;
+        addTestTasks();
 
-        Task testTask1 = new Task(title1, date1, priority1);
-        Task testTask2 = new Task(title2, date2, priority2);
-        todoAppGUI.getTaskManager().addTask(testTask1);
-        todoAppGUI.getTaskManager().addTask(testTask2);
-
-        todoAppGUI.setDatePickerDate2(date1);
+        LocalDate date = LocalDate.of(2023, 8, 10);
+        todoAppGUI.setDatePickerDate2(date);
         todoAppGUI.clickSearchDateButton();
 
         List<Task> searchResults = todoAppGUI.getSearchResults();
 
         assertEquals(1, searchResults.size());
         Task foundTask = searchResults.get(0);
-        assertEquals(title1, foundTask.getTitle());
-        assertEquals(date1, foundTask.getDate());
-        assertEquals(priority1, foundTask.getPriority());
+        assertEquals("Test Task1", foundTask.getTitle());
+        assertEquals(date, foundTask.getDate());
+        assertEquals(Priority.HIGH, foundTask.getPriority());
     }
 
     @Test
     void testSearchByDateInterval() {
-        String title1 = "Test Task1";
-        String title2 = "Test Task2";
-        LocalDate date1 = LocalDate.of(2023,8,10);
-        LocalDate date2 = LocalDate.of(2023,8,12);
-        Priority priority1 = Priority.HIGH;
-        Priority priority2 = Priority.LOW;
+        addTestTasks();
 
-        Task testTask1 = new Task(title1, date1, priority1);
-        Task testTask2 = new Task(title2, date2, priority2);
-        todoAppGUI.getTaskManager().addTask(testTask1);
-        todoAppGUI.getTaskManager().addTask(testTask2);
-
-        todoAppGUI.setDatePickerDate3(LocalDate.of(2023,8,9));
-        todoAppGUI.setDatePickerDate4(LocalDate.of(2023,8,11));
+        LocalDate startDate = LocalDate.of(2023, 8, 9);
+        LocalDate endDate = LocalDate.of(2023, 8, 11);
+        todoAppGUI.setDatePickerDate3(startDate);
+        todoAppGUI.setDatePickerDate4(endDate);
         todoAppGUI.clickSearchDateIntervalButton();
 
         List<Task> searchResults = todoAppGUI.getSearchResults();
 
         assertEquals(1, searchResults.size());
         Task foundTask = searchResults.get(0);
-        assertEquals(title1, foundTask.getTitle());
-        assertEquals(date1, foundTask.getDate());
-        assertEquals(priority1, foundTask.getPriority());
+        assertEquals("Test Task1", foundTask.getTitle());
+        assertEquals(LocalDate.of(2023, 8, 10), foundTask.getDate());
+        assertEquals(Priority.HIGH, foundTask.getPriority());
     }
 
     @Test
     void testSearchByTitle() {
-        String title1 = "Test Task1";
-        String title2 = "Test Task2";
-        LocalDate date1 = LocalDate.of(2023,8,10);
-        LocalDate date2 = LocalDate.of(2023,8,12);
-        Priority priority1 = Priority.HIGH;
-        Priority priority2 = Priority.LOW;
+        addTestTasks();
 
-        Task testTask1 = new Task(title1, date1, priority1);
-        Task testTask2 = new Task(title2, date2, priority2);
-        todoAppGUI.getTaskManager().addTask(testTask1);
-        todoAppGUI.getTaskManager().addTask(testTask2);
-
-        todoAppGUI.setSearchTitleField(title1);
+        String title = "Test Task1";
+        todoAppGUI.setSearchTitleField(title);
         todoAppGUI.clickSearchTitleButton();
 
         List<Task> searchResults = todoAppGUI.getSearchResults();
 
         assertEquals(1, searchResults.size());
         Task foundTask = searchResults.get(0);
-        assertEquals(title1, foundTask.getTitle());
-        assertEquals(date1, foundTask.getDate());
-        assertEquals(priority1, foundTask.getPriority());
+        assertEquals(title, foundTask.getTitle());
+        assertEquals(LocalDate.of(2023, 8, 10), foundTask.getDate());
+        assertEquals(Priority.HIGH, foundTask.getPriority());
     }
+
     @Test
     void testSearchByPriority() {
-        String title1 = "Test Task1";
-        String title2 = "Test Task2";
-        LocalDate date1 = LocalDate.of(2023,8,10);
-        LocalDate date2 = LocalDate.of(2023,8,12);
-        Priority priority1 = Priority.HIGH;
-        Priority priority2 = Priority.LOW;
+        addTestTasks();
 
-        Task testTask1 = new Task(title1, date1, priority1);
-        Task testTask2 = new Task(title2, date2, priority2);
-        todoAppGUI.getTaskManager().addTask(testTask1);
-        todoAppGUI.getTaskManager().addTask(testTask2);
-
-        todoAppGUI.setSearchPriorityComboBox(priority1);
+        Priority priority = Priority.HIGH;
+        todoAppGUI.setSearchPriorityComboBox(priority);
         todoAppGUI.clickSearchPriorityButton();
 
         List<Task> searchResults = todoAppGUI.getSearchResults();
 
         assertEquals(1, searchResults.size());
         Task foundTask = searchResults.get(0);
-        assertEquals(title1, foundTask.getTitle());
-        assertEquals(date1, foundTask.getDate());
-        assertEquals(priority1, foundTask.getPriority());
+        assertEquals("Test Task1", foundTask.getTitle());
+        assertEquals(LocalDate.of(2023, 8, 10), foundTask.getDate());
+        assertEquals(priority, foundTask.getPriority());
     }
 }
