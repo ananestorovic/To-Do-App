@@ -28,7 +28,7 @@ class ToDoAppGUITest {
         Priority priority = Priority.HIGH;
 
         todoAppGUI.setTaskTitleField(title);
-        todoAppGUI.setDatePickerDate(date);
+        todoAppGUI.setDatePickerDate1(date);
         todoAppGUI.setPriorityComboBox(priority);
 
         todoAppGUI.clickAddButton();
