@@ -1,7 +1,6 @@
 package tasks;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -32,8 +31,10 @@ public class ToDoAppGUI {
     private JTextArea resultTextArea = new JTextArea(10, 30);
 
     private JButton searchDateButton = new JButton("Search");
-
     private JButton searchDateIntervalButton = new JButton("Search");
+
+    private JButton searchTitleButton = new JButton("Search");
+    private JTextField searchTitleField = new JTextField(20);
 
     public void createAndShowGUI() {
         JFrame frame = new JFrame("To-Do App");
@@ -130,6 +131,19 @@ public class ToDoAppGUI {
         searchDateIntervalPanel.add(JDatePickerImpl4);
         searchDateIntervalPanel.add(searchDateIntervalButton);
 
+        JPanel searchTitlePanel = new JPanel();
+        searchTitleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String title = searchTitleField.getText();
+                List<Task> searchResults = taskManager.searchByTitle(title);
+                displaySearchResults(searchResults);
+            }
+        });
+        searchTitlePanel.add(new JLabel("Search by title:"));
+        searchTitlePanel.add(searchTitleField);
+        searchTitlePanel.add(searchTitleButton);
+
+
         JPanel resultsPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(resultTextArea);
         resultsPanel.add(scrollPane);
@@ -137,6 +151,7 @@ public class ToDoAppGUI {
         frame.add(inputPanel);
         frame.add(searchDatePanel);
         frame.add(searchDateIntervalPanel);
+        frame.add(searchTitlePanel);
         frame.add(resultsPanel);
 
         frame.pack();
@@ -173,6 +188,10 @@ public class ToDoAppGUI {
         JDatePickerImpl3.getModel().setSelected(true);
     }
 
+    public void setSearchTitleField(String title){
+        searchTitleField.setText(title);
+    }
+
     public void setDatePickerDate4(LocalDate date) {
         JDatePickerImpl4.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
         JDatePickerImpl4.getModel().setSelected(true);
@@ -192,6 +211,10 @@ public class ToDoAppGUI {
 
     public void clickSearchDateIntervalButton() {
         searchDateIntervalButton.doClick();
+    }
+
+    public void clickSearchTitleButton() {
+        searchTitleButton.doClick();
     }
 
     public List<Task> getSearchResults() {
