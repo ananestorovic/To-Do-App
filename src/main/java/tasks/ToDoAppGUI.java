@@ -34,7 +34,11 @@ public class ToDoAppGUI {
     private JButton searchDateIntervalButton = new JButton("Search");
 
     private JButton searchTitleButton = new JButton("Search");
+
+    private JButton searchPriorityButton = new JButton("Search");
     private JTextField searchTitleField = new JTextField(20);
+
+    private JComboBox<Priority> searchPriorityComboBox = new JComboBox<>(Priority.values());
 
     public void createAndShowGUI() {
         JFrame frame = new JFrame("To-Do App");
@@ -143,6 +147,18 @@ public class ToDoAppGUI {
         searchTitlePanel.add(searchTitleField);
         searchTitlePanel.add(searchTitleButton);
 
+        JPanel searchPriorityPanel = new JPanel();
+        searchPriorityButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Priority priority = (Priority) searchPriorityComboBox.getSelectedItem();
+                List<Task> searchResults = taskManager.searchByPriority(priority);
+                displaySearchResults(searchResults);
+            }
+        });
+        searchPriorityPanel.add(new JLabel("Search by priority:"));
+        searchPriorityPanel.add(searchPriorityComboBox);
+        searchPriorityPanel.add(searchPriorityButton);
+
 
         JPanel resultsPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(resultTextArea);
@@ -152,6 +168,7 @@ public class ToDoAppGUI {
         frame.add(searchDatePanel);
         frame.add(searchDateIntervalPanel);
         frame.add(searchTitlePanel);
+        frame.add(searchPriorityPanel);
         frame.add(resultsPanel);
 
         frame.pack();
@@ -199,6 +216,14 @@ public class ToDoAppGUI {
 
     public void setPriorityComboBox(Priority priority) {
         priorityComboBox.setSelectedItem(priority);
+    }
+
+    public void setSearchPriorityComboBox(Priority priority) {
+        searchPriorityComboBox.setSelectedItem(priority);
+    }
+
+    public void clickSearchPriorityButton() {
+        searchPriorityButton.doClick();
     }
 
     public void clickAddButton() {
