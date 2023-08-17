@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -37,5 +38,26 @@ class ToDoAppGUITest {
         assertEquals(title, addedTask.getTitle());
         assertEquals(date, addedTask.getDate());
         assertEquals(priority, addedTask.getPriority());
+    }
+
+    @Test
+    void testSearchByDate() {
+        String title = "Test Task";
+        LocalDate date = LocalDate.now();
+        Priority priority = Priority.HIGH;
+
+        Task testTask = new Task(title, date, priority);
+        todoAppGUI.getTaskManager().addTask(testTask);
+
+        todoAppGUI.setDatePickerDate2(date);
+        todoAppGUI.clickSearchDateButton();
+
+        List<Task> searchResults = todoAppGUI.getSearchResults();
+
+        assertEquals(1, searchResults.size());
+        Task foundTask = searchResults.get(0);
+        assertEquals(title, foundTask.getTitle());
+        assertEquals(date, foundTask.getDate());
+        assertEquals(priority, foundTask.getPriority());
     }
 }
