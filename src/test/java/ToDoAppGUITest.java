@@ -87,4 +87,25 @@ class ToDoAppGUITest {
         assertEquals(date1, foundTask.getDate());
         assertEquals(priority1, foundTask.getPriority());
     }
+
+    @Test
+    void testSearchByTitle() {
+        String title = "Test Task";
+        LocalDate date = LocalDate.now();
+        Priority priority = Priority.HIGH;
+
+        Task testTask = new Task(title, date, priority);
+        todoAppGUI.getTaskManager().addTask(testTask);
+
+        todoAppGUI.setSearchTitleField(title);
+        todoAppGUI.clickSearchTitleButton();
+
+        List<Task> searchResults = todoAppGUI.getSearchResults();
+
+        assertEquals(1, searchResults.size());
+        Task foundTask = searchResults.get(0);
+        assertEquals(title, foundTask.getTitle());
+        assertEquals(date, foundTask.getDate());
+        assertEquals(priority, foundTask.getPriority());
+    }
 }
