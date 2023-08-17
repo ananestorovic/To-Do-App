@@ -60,4 +60,31 @@ class ToDoAppGUITest {
         assertEquals(date, foundTask.getDate());
         assertEquals(priority, foundTask.getPriority());
     }
+
+    @Test
+    void testSearchByDateInterval() {
+        String title1 = "Test Task1";
+        String title2 = "Test Task2";
+        LocalDate date1 = LocalDate.of(2023,8,10);
+        LocalDate date2 = LocalDate.of(2023,8,12);
+        Priority priority1 = Priority.HIGH;
+        Priority priority2 = Priority.LOW;
+
+        Task testTask1 = new Task(title1, date1, priority1);
+        Task testTask2 = new Task(title2, date2, priority2);
+        todoAppGUI.getTaskManager().addTask(testTask1);
+        todoAppGUI.getTaskManager().addTask(testTask2);
+
+        todoAppGUI.setDatePickerDate3(LocalDate.of(2023,8,9));
+        todoAppGUI.setDatePickerDate4(LocalDate.of(2023,8,11));
+        todoAppGUI.clickSearchDateIntervalButton();
+
+        List<Task> searchResults = todoAppGUI.getSearchResults();
+
+        assertEquals(1, searchResults.size());
+        Task foundTask = searchResults.get(0);
+        assertEquals(title1, foundTask.getTitle());
+        assertEquals(date1, foundTask.getDate());
+        assertEquals(priority1, foundTask.getPriority());
+    }
 }
