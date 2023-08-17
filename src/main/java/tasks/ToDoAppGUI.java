@@ -17,162 +17,151 @@ import java.util.Properties;
 
 
 public class ToDoAppGUI {
-    private TaskManager taskManager = new TaskManager();
-    private JTextField taskTitleField = new JTextField(20);
-    private JComboBox<Priority> priorityComboBox = new JComboBox<>(Priority.values());
-    private JDatePickerImpl JDatePickerImpl1;
-    private JButton addButton = new JButton("Add task");
+    private final TaskManager taskManager = new TaskManager();
 
-    private JDatePickerImpl JDatePickerImpl2;
+    private final JTextField taskTitleField = new JTextField(20);
+    private final JTextField searchTitleField = new JTextField(20);
+    private final JTextArea resultTextArea = new JTextArea(10, 30);
 
-    private JDatePickerImpl JDatePickerImpl3;
+    private final JButton addButton = new JButton("Add task");
+    private final JButton searchDateButton = new JButton("Search");
+    private final JButton searchDateIntervalButton = new JButton("Search");
+    private final JButton searchTitleButton = new JButton("Search");
+    private final JButton searchPriorityButton = new JButton("Search");
 
-    private JDatePickerImpl JDatePickerImpl4;
-    private JTextArea resultTextArea = new JTextArea(10, 30);
+    private final JComboBox<Priority> priorityComboBox = new JComboBox<>(Priority.values());
+    private final JComboBox<Priority> searchPriorityComboBox = new JComboBox<>(Priority.values());
 
-    private JButton searchDateButton = new JButton("Search");
-    private JButton searchDateIntervalButton = new JButton("Search");
-
-    private JButton searchTitleButton = new JButton("Search");
-
-    private JButton searchPriorityButton = new JButton("Search");
-    private JTextField searchTitleField = new JTextField(20);
-
-    private JComboBox<Priority> searchPriorityComboBox = new JComboBox<>(Priority.values());
+    private JDatePickerImpl datePicker1;
+    private JDatePickerImpl datePicker2;
+    private JDatePickerImpl datePicker3;
+    private JDatePickerImpl datePicker4;
 
     public void createAndShowGUI() {
         JFrame frame = new JFrame("To-Do App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 
+        frame.add(createInputPanel());
+        frame.add(createSearchDatePanel());
+        frame.add(createSearchDateIntervalPanel());
+        frame.add(createSearchTitlePanel());
+        frame.add(createSearchPriorityPanel());
+        frame.add(createResultsPanel());
+
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private JPanel createInputPanel() {
         JPanel inputPanel = new JPanel();
 
         inputPanel.add(new JLabel("Title:"));
         inputPanel.add(taskTitleField);
 
         inputPanel.add(new JLabel("Date:"));
-        UtilDateModel model1 = new UtilDateModel();
-        Properties p1 = new Properties();
-        p1.put("text.today", "Today");
-        p1.put("text.month", "Month");
-        p1.put("text.year", "Year");
-        JDatePanelImpl datePanel1 = new JDatePanelImpl(model1, p1);
-        JDatePickerImpl1 = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
-        inputPanel.add(JDatePickerImpl1);
+        datePicker1 = initializeDatePicker();
+        inputPanel.add(datePicker1);
 
         inputPanel.add(new JLabel("Priority:"));
         inputPanel.add(priorityComboBox);
         inputPanel.add(addButton);
+        addButton.addActionListener(e -> addTask());
 
-        addButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String title = taskTitleField.getText();
-                LocalDate date = LocalDate.parse(JDatePickerImpl1.getJFormattedTextField().getText());
-                Priority priority = (Priority) priorityComboBox.getSelectedItem();
-                taskManager.addTask(new Task(title, date, priority));
-            }
-        });
+        return inputPanel;
+    }
 
-        frame.add(inputPanel);
-        frame.pack();
-        frame.setVisible(true);
-
-
+    private JPanel createSearchDatePanel() {
         JPanel searchDatePanel = new JPanel();
-        searchDateButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Calendar searchCalendar = (Calendar) JDatePickerImpl2.getJFormattedTextField().getValue();
-                LocalDate searchDate = searchCalendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                List<Task> searchResults = taskManager.searchByDate(searchDate);
-                displaySearchResults(searchResults);
-            }
-        });
 
         searchDatePanel.add(new JLabel("Search by date:"));
-        UtilDateModel model2 = new UtilDateModel();
-        Properties p2 = new Properties();
-        p1.put("text.today", "Today");
-        p1.put("text.month", "Month");
-        p1.put("text.year", "Year");
-        JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p2);
-        JDatePickerImpl2 = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
-
-        searchDatePanel.add(JDatePickerImpl2);
+        datePicker2 = initializeDatePicker();
+        searchDatePanel.add(datePicker2);
         searchDatePanel.add(searchDateButton);
+        searchDateButton.addActionListener(e -> searchByDate());
 
-        searchDateIntervalButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Calendar searchCalendar1 = (Calendar) JDatePickerImpl3.getJFormattedTextField().getValue();
-                LocalDate startDate = searchCalendar1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                Calendar searchCalendar2 = (Calendar) JDatePickerImpl4.getJFormattedTextField().getValue();
-                LocalDate endDate = searchCalendar2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                List<Task> searchResults = taskManager.searchByDateInterval(startDate, endDate);
-                displaySearchResults(searchResults);
-            }
-        });
+        return searchDatePanel;
+    }
 
+    private JPanel createSearchDateIntervalPanel() {
         JPanel searchDateIntervalPanel = new JPanel();
 
         searchDateIntervalPanel.add(new JLabel("Search by date interval:"));
+        datePicker3 = initializeDatePicker();
+        datePicker4 = initializeDatePicker();
 
-        UtilDateModel model3 = new UtilDateModel();
-        Properties p3 = new Properties();
-        p1.put("text.today", "Today");
-        p1.put("text.month", "Month");
-        p1.put("text.year", "Year");
-        JDatePanelImpl datePanel3 = new JDatePanelImpl(model3, p3);
-        JDatePickerImpl3 = new JDatePickerImpl(datePanel3, new DateLabelFormatter());
-
-        UtilDateModel model4 = new UtilDateModel();
-        Properties p4 = new Properties();
-        p1.put("text.today", "Today");
-        p1.put("text.month", "Month");
-        p1.put("text.year", "Year");
-        JDatePanelImpl datePanel4 = new JDatePanelImpl(model4, p4);
-        JDatePickerImpl4 = new JDatePickerImpl(datePanel4, new DateLabelFormatter());
-
-        searchDateIntervalPanel.add(JDatePickerImpl3);
-        searchDateIntervalPanel.add(JDatePickerImpl4);
+        searchDateIntervalPanel.add(datePicker3);
+        searchDateIntervalPanel.add(datePicker4);
         searchDateIntervalPanel.add(searchDateIntervalButton);
+        searchDateIntervalButton.addActionListener(e -> searchByDateInterval());
 
+        return searchDateIntervalPanel;
+    }
+
+    private JPanel createSearchTitlePanel() {
         JPanel searchTitlePanel = new JPanel();
-        searchTitleButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String title = searchTitleField.getText();
-                List<Task> searchResults = taskManager.searchByTitle(title);
-                displaySearchResults(searchResults);
-            }
-        });
+
         searchTitlePanel.add(new JLabel("Search by title:"));
         searchTitlePanel.add(searchTitleField);
         searchTitlePanel.add(searchTitleButton);
+        searchTitleButton.addActionListener(e -> searchByTitle());
 
+        return searchTitlePanel;
+    }
+
+    private JPanel createSearchPriorityPanel() {
         JPanel searchPriorityPanel = new JPanel();
-        searchPriorityButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Priority priority = (Priority) searchPriorityComboBox.getSelectedItem();
-                List<Task> searchResults = taskManager.searchByPriority(priority);
-                displaySearchResults(searchResults);
-            }
-        });
+
         searchPriorityPanel.add(new JLabel("Search by priority:"));
         searchPriorityPanel.add(searchPriorityComboBox);
         searchPriorityPanel.add(searchPriorityButton);
+        searchPriorityButton.addActionListener(e -> searchByPriority());
 
+        return searchPriorityPanel;
+    }
 
+    private JPanel createResultsPanel() {
         JPanel resultsPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(resultTextArea);
         resultsPanel.add(scrollPane);
+        return resultsPanel;
+    }
 
-        frame.add(inputPanel);
-        frame.add(searchDatePanel);
-        frame.add(searchDateIntervalPanel);
-        frame.add(searchTitlePanel);
-        frame.add(searchPriorityPanel);
-        frame.add(resultsPanel);
+    private void addTask() {
+        String title = taskTitleField.getText();
+        LocalDate date = getDateFromDatePicker(datePicker1);
+        Priority priority = (Priority) priorityComboBox.getSelectedItem();
+        taskManager.addTask(new Task(title, date, priority));
+    }
 
-        frame.pack();
-        frame.setVisible(true);
+    private void searchByDate() {
+        LocalDate searchDate = getDateFromDatePicker(datePicker2);
+        List<Task> searchResults = taskManager.searchByDate(searchDate);
+        displaySearchResults(searchResults);
+    }
+
+    private void searchByDateInterval() {
+        LocalDate startDate = getDateFromDatePicker(datePicker3);
+        LocalDate endDate = getDateFromDatePicker(datePicker4);
+        List<Task> searchResults = taskManager.searchByDateInterval(startDate, endDate);
+        displaySearchResults(searchResults);
+    }
+
+    private void searchByTitle() {
+        String title = searchTitleField.getText();
+        List<Task> searchResults = taskManager.searchByTitle(title);
+        displaySearchResults(searchResults);
+    }
+
+    private void searchByPriority() {
+        Priority priority = (Priority) searchPriorityComboBox.getSelectedItem();
+        List<Task> searchResults = taskManager.searchByPriority(priority);
+        displaySearchResults(searchResults);
+    }
+
+    private LocalDate getDateFromDatePicker(JDatePickerImpl datePicker) {
+        Calendar searchCalendar = (Calendar) datePicker.getJFormattedTextField().getValue();
+        return searchCalendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     private void displaySearchResults(List<Task> searchResults) {
@@ -180,6 +169,16 @@ public class ToDoAppGUI {
         for (Task task : searchResults) {
             resultTextArea.append(task.getTitle() + " - " + task.getDate() + " - " + task.getPriority() + "\n");
         }
+    }
+
+    private JDatePickerImpl initializeDatePicker() {
+        UtilDateModel model = new UtilDateModel();
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+        return new JDatePickerImpl(datePanel, new DateLabelFormatter());
     }
 
     public TaskManager getTaskManager() {
@@ -191,18 +190,18 @@ public class ToDoAppGUI {
     }
 
     public void setDatePickerDate1(LocalDate date) {
-        JDatePickerImpl1.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
-        JDatePickerImpl1.getModel().setSelected(true);
+        datePicker1.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+        datePicker1.getModel().setSelected(true);
     }
 
     public void setDatePickerDate2(LocalDate date) {
-        JDatePickerImpl2.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
-        JDatePickerImpl2.getModel().setSelected(true);
+        datePicker2.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+        datePicker2.getModel().setSelected(true);
     }
 
     public void setDatePickerDate3(LocalDate date) {
-        JDatePickerImpl3.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
-        JDatePickerImpl3.getModel().setSelected(true);
+        datePicker3.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+        datePicker3.getModel().setSelected(true);
     }
 
     public void setSearchTitleField(String title){
@@ -210,8 +209,8 @@ public class ToDoAppGUI {
     }
 
     public void setDatePickerDate4(LocalDate date) {
-        JDatePickerImpl4.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
-        JDatePickerImpl4.getModel().setSelected(true);
+        datePicker4.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+        datePicker4.getModel().setSelected(true);
     }
 
     public void setPriorityComboBox(Priority priority) {
