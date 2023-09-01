@@ -19,6 +19,4 @@ public class ExceptionAspect {
         String logMessage = "Error in method " + callingMethod + ": " + errorMessage;
         logger.severe(logMessage);
     }
-
-
 }
