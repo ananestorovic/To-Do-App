@@ -130,4 +130,23 @@ class ToDoAppGUITest {
         Task foundTask = searchResults.get(0);
         assertFalse(targetDate.equals(foundTask.getDate()));
     }
+
+    @Test
+    void testDeleteByDateInterval(){
+        addTestTasks();
+
+        LocalDate startDate = LocalDate.of(2023, 8, 9);
+        LocalDate endDate = LocalDate.of(2023, 8, 11);
+        todoAppGUI.setDatePickerDate6(startDate);
+        todoAppGUI.setDatePickerDate7(endDate);
+        todoAppGUI.clickDeleteByDateIntervalButton();
+
+        List<Task> searchResults = todoAppGUI.getTaskManager().getTasks();
+
+        assertEquals(1, searchResults.size());
+        Task foundTask = searchResults.get(0);
+        assertEquals("Test Task2", foundTask.getTitle());
+        assertEquals(LocalDate.of(2023, 8, 12), foundTask.getDate());
+        assertEquals(Priority.LOW, foundTask.getPriority());
+    }
 }
