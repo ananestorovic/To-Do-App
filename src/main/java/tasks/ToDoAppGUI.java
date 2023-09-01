@@ -1,8 +1,6 @@
 package tasks;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -29,6 +27,8 @@ public class ToDoAppGUI {
     private final JButton searchTitleButton = new JButton("Search");
     private final JButton searchPriorityButton = new JButton("Search");
 
+    private final JButton deleteByDateButton = new JButton("Delete");
+
     private final JComboBox<Priority> priorityComboBox = new JComboBox<>(Priority.values());
     private final JComboBox<Priority> searchPriorityComboBox = new JComboBox<>(Priority.values());
 
@@ -36,6 +36,8 @@ public class ToDoAppGUI {
     private JDatePickerImpl datePicker2;
     private JDatePickerImpl datePicker3;
     private JDatePickerImpl datePicker4;
+
+    private JDatePickerImpl datePicker5;
 
     public void createAndShowGUI() {
         JFrame frame = new JFrame("To-Do App");
@@ -47,6 +49,7 @@ public class ToDoAppGUI {
         frame.add(createSearchDateIntervalPanel());
         frame.add(createSearchTitlePanel());
         frame.add(createSearchPriorityPanel());
+        frame.add(createDeleteByDatePanel());
         frame.add(createResultsPanel());
 
         frame.pack();
@@ -120,6 +123,18 @@ public class ToDoAppGUI {
         return searchPriorityPanel;
     }
 
+    private JPanel createDeleteByDatePanel() {
+        JPanel deleteByDatePanel = new JPanel();
+
+        deleteByDatePanel.add(new JLabel("Delete tasks for the selected date:"));
+        datePicker5 = initializeDatePicker();
+        deleteByDatePanel.add(datePicker5);
+        deleteByDatePanel.add(deleteByDateButton);
+        deleteByDateButton.addActionListener(e -> deleteByDate());
+
+        return deleteByDatePanel;
+    }
+
     private JPanel createResultsPanel() {
         JPanel resultsPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(resultTextArea);
@@ -171,6 +186,11 @@ public class ToDoAppGUI {
         }
     }
 
+    private void deleteByDate() {
+        LocalDate targetDate = getDateFromDatePicker(datePicker5);
+        taskManager.deleteByDate(targetDate);
+    }
+
     private JDatePickerImpl initializeDatePicker() {
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
@@ -213,6 +233,11 @@ public class ToDoAppGUI {
         datePicker4.getModel().setSelected(true);
     }
 
+    public void setDatePickerDate5(LocalDate date) {
+        datePicker5.getModel().setDate(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+        datePicker5.getModel().setSelected(true);
+    }
+
     public void setPriorityComboBox(Priority priority) {
         priorityComboBox.setSelectedItem(priority);
     }
@@ -239,6 +264,10 @@ public class ToDoAppGUI {
 
     public void clickSearchTitleButton() {
         searchTitleButton.doClick();
+    }
+
+    public void clickDeleteByDateButton() {
+        deleteByDateButton.doClick();
     }
 
     public List<Task> getSearchResults() {
