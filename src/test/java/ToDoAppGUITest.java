@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import tasks.Priority;
 import tasks.Task;
@@ -113,5 +114,20 @@ class ToDoAppGUITest {
         assertEquals("Test Task1", foundTask.getTitle());
         assertEquals(LocalDate.of(2023, 8, 10), foundTask.getDate());
         assertEquals(priority, foundTask.getPriority());
+    }
+
+    @Test
+    void testDeleteByDate(){
+        addTestTasks();
+
+        LocalDate targetDate = LocalDate.of(2023, 8, 10);
+        todoAppGUI.setDatePickerDate5(targetDate);
+        todoAppGUI.clickDeleteByDateButton();
+
+        List<Task> searchResults = todoAppGUI.getTaskManager().getTasks();
+
+        assertEquals(1, searchResults.size());
+        Task foundTask = searchResults.get(0);
+        assertFalse(targetDate.equals(foundTask.getDate()));
     }
 }
