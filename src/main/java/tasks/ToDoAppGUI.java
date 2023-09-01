@@ -1,6 +1,7 @@
 package tasks;
 
 import javax.swing.*;
+import java.awt.*;
 import java.time.LocalDate;
 
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -29,6 +30,8 @@ public class ToDoAppGUI {
 
     private final JButton deleteByDateButton = new JButton("Delete");
 
+    private final JButton deleteByDateIntervalButton = new JButton("Delete");
+
     private final JComboBox<Priority> priorityComboBox = new JComboBox<>(Priority.values());
     private final JComboBox<Priority> searchPriorityComboBox = new JComboBox<>(Priority.values());
 
@@ -36,8 +39,9 @@ public class ToDoAppGUI {
     private JDatePickerImpl datePicker2;
     private JDatePickerImpl datePicker3;
     private JDatePickerImpl datePicker4;
-
     private JDatePickerImpl datePicker5;
+    private JDatePickerImpl datePicker6;
+    private JDatePickerImpl datePicker7;
 
     public void createAndShowGUI() {
         JFrame frame = new JFrame("To-Do App");
@@ -50,6 +54,7 @@ public class ToDoAppGUI {
         frame.add(createSearchTitlePanel());
         frame.add(createSearchPriorityPanel());
         frame.add(createDeleteByDatePanel());
+        frame.add(createDeleteByDateIntervalPanel());
         frame.add(createResultsPanel());
 
         frame.pack();
@@ -135,6 +140,20 @@ public class ToDoAppGUI {
         return deleteByDatePanel;
     }
 
+    private JPanel createDeleteByDateIntervalPanel() {
+        JPanel deleteByDateIntervalPanel = new JPanel();
+
+        deleteByDateIntervalPanel.add(new JLabel("Delete tasks for the selected date interval:"));
+        datePicker6 = initializeDatePicker();
+        datePicker7 = initializeDatePicker();
+        deleteByDateIntervalPanel.add(datePicker6);
+        deleteByDateIntervalPanel.add(datePicker7);
+        deleteByDateIntervalPanel.add(deleteByDateIntervalButton);
+        deleteByDateIntervalButton.addActionListener(e -> deleteByDateInterval());
+
+        return deleteByDateIntervalPanel;
+    }
+
     private JPanel createResultsPanel() {
         JPanel resultsPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(resultTextArea);
@@ -191,6 +210,12 @@ public class ToDoAppGUI {
         taskManager.deleteByDate(targetDate);
     }
 
+    private void deleteByDateInterval() {
+        LocalDate startDate = getDateFromDatePicker(datePicker6);
+        LocalDate endDate = getDateFromDatePicker(datePicker7);
+        taskManager.deleteByDateInterval(startDate, endDate);
+    }
+
     private JDatePickerImpl initializeDatePicker() {
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
@@ -238,6 +263,16 @@ public class ToDoAppGUI {
         datePicker5.getModel().setSelected(true);
     }
 
+    public void setDatePickerDate6(LocalDate startDate) {
+        datePicker6.getModel().setDate(startDate.getYear(), startDate.getMonthValue() - 1, startDate.getDayOfMonth());
+        datePicker6.getModel().setSelected(true);
+    }
+
+    public void setDatePickerDate7(LocalDate endDate) {
+        datePicker7.getModel().setDate(endDate.getYear(), endDate.getMonthValue() - 1, endDate.getDayOfMonth());
+        datePicker7.getModel().setSelected(true);
+    }
+
     public void setPriorityComboBox(Priority priority) {
         priorityComboBox.setSelectedItem(priority);
     }
@@ -268,6 +303,10 @@ public class ToDoAppGUI {
 
     public void clickDeleteByDateButton() {
         deleteByDateButton.doClick();
+    }
+
+    public void clickDeleteByDateIntervalButton() {
+        deleteByDateIntervalButton.doClick();
     }
 
     public List<Task> getSearchResults() {
