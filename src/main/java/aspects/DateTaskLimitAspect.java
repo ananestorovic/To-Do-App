@@ -16,8 +16,8 @@ public class DateTaskLimitAspect {
     @Pointcut("execution(public * tasks.TaskManager.addTask(tasks.Task)) && args(task)")
     public void addTaskMethod(Task task) {}
 
-    @Around("addTaskMethod(task)")
-    public Object aroundAdvice(Task task, ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    @Around(value = "addTaskMethod(task)", argNames = "proceedingJoinPoint,task")
+    public Object aroundAdvice(ProceedingJoinPoint proceedingJoinPoint, Task task) throws Throwable {
         LocalDate date = task.getDate();
         int tasksAddedForDate = taskCountByDate.getOrDefault(date, 0);
         if (tasksAddedForDate >= maxTasksPerDate) {
