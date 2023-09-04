@@ -1,9 +1,9 @@
 package tasks;
 
 import javax.swing.*;
-import java.awt.*;
 import java.time.LocalDate;
 
+import config.ConfigurationManager;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -326,6 +326,7 @@ public class ToDoAppGUI {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            ConfigurationManager.init(args[0]);
             ToDoAppGUI app = new ToDoAppGUI();
             app.createAndShowGUI();
         });
