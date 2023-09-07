@@ -1,3 +1,4 @@
+import config.ConfigurationManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,14 +14,15 @@ class TaskManagerTest {
 
     @BeforeEach
     void setUp() {
+        ConfigurationManager.init("/config.properties");
         taskManager = new TaskManager();
         populateTaskManager();
     }
 
     private void populateTaskManager() {
-        LocalDate taskDate1 = LocalDate.of(2023, 7, 15);
-        LocalDate taskDate2 = LocalDate.of(2023, 8, 5);
-        LocalDate taskDate3 = LocalDate.of(2020, 9, 16);
+        LocalDate taskDate1 = LocalDate.of(2025, 7, 15);
+        LocalDate taskDate2 = LocalDate.of(2025, 8, 5);
+        LocalDate taskDate3 = LocalDate.of(2024, 9, 16);
         Task newTask1 = new Task("Purchase some milk", taskDate1, Priority.LOW);
         Task newTask2 = new Task("Schedule a dentist appointment", taskDate2, Priority.HIGH);
         Task newTask3 = new Task("Pay the phone bill", taskDate3, Priority.MEDIUM);
@@ -32,7 +34,7 @@ class TaskManagerTest {
 
     @Test
     void addTaskToTaskManager() { //Does it make sense to check that now?
-        LocalDate taskDate = LocalDate.of(2023, 7, 16);
+        LocalDate taskDate = LocalDate.of(2025, 7, 16);
         Task newTask = new Task("Take the dog to the veterinarian", taskDate, Priority.HIGH);
 
         taskManager.addTask(newTask);
@@ -44,7 +46,7 @@ class TaskManagerTest {
 
     @Test
     void testSearchByDate() {
-        LocalDate targetDate = LocalDate.of(2023, 8, 5);
+        LocalDate targetDate = LocalDate.of(2025, 8, 5);
         List<Task> tasksOnDate = taskManager.searchByDate(targetDate);
 
         Assertions.assertFalse(tasksOnDate.isEmpty());
@@ -53,8 +55,8 @@ class TaskManagerTest {
 
     @Test
     void testSearchByDateInterval() {
-        LocalDate startDate = LocalDate.of(2019, 12, 1);
-        LocalDate endDate = LocalDate.of(2020, 12, 1);
+        LocalDate startDate = LocalDate.of(2013, 12, 1);
+        LocalDate endDate = LocalDate.of(2024, 12, 1);
         List<Task> tasksOnDateInterval = taskManager.searchByDateInterval(startDate, endDate);
 
         Assertions.assertEquals(1, tasksOnDateInterval.size());
@@ -71,7 +73,7 @@ class TaskManagerTest {
 
     @Test
     void testDeleteByDate() {
-        LocalDate targetDate = LocalDate.of(2023, 8, 5);
+        LocalDate targetDate = LocalDate.of(2025, 8, 5);
         taskManager.deleteByDate(targetDate);
 
         List<Task> tasksOnDate = taskManager.searchByDate(targetDate);
@@ -80,14 +82,14 @@ class TaskManagerTest {
 
     @Test
     void testDeleteByDateInterval() {
-        LocalDate startDate = LocalDate.of(2023, 7, 1);
-        LocalDate endDate = LocalDate.of(2023, 10, 1);
+        LocalDate startDate = LocalDate.of(2025, 7, 1);
+        LocalDate endDate = LocalDate.of(2025, 10, 1);
         taskManager.deleteByDateInterval(startDate, endDate);
 
         Assertions.assertEquals(1, taskManager.getTasks().size());
         //Do I really need all these checks?
         Assertions.assertEquals("Pay the phone bill", taskManager.getTasks().get(0).getTitle());
-        Assertions.assertEquals(LocalDate.of(2020, 9, 16), taskManager.getTasks().get(0).getDate());
+        Assertions.assertEquals(LocalDate.of(2024, 9, 16), taskManager.getTasks().get(0).getDate());
         Assertions.assertEquals(Priority.MEDIUM, taskManager.getTasks().get(0).getPriority());
     }
 
@@ -101,8 +103,8 @@ class TaskManagerTest {
 
     @Test
     void testSortByPriority() {
-        LocalDate startDate = LocalDate.of(2020, 1, 1);
-        LocalDate endDate = LocalDate.of(2023, 12, 1);
+        LocalDate startDate = LocalDate.of(2024, 1, 1);
+        LocalDate endDate = LocalDate.of(2025, 12, 1);
         List<Task> foundTasks = taskManager.searchByDateInterval(startDate, endDate);
 
         Assertions.assertEquals(3, foundTasks.size());

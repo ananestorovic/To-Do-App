@@ -156,6 +156,7 @@ public class ToDoAppGUI {
 
     private JPanel createResultsPanel() {
         JPanel resultsPanel = new JPanel();
+        resultsPanel.add(new JLabel("Last search:"));
         JScrollPane scrollPane = new JScrollPane(resultTextArea);
         resultsPanel.add(scrollPane);
         return resultsPanel;
@@ -223,7 +224,13 @@ public class ToDoAppGUI {
         p.put("text.month", "Month");
         p.put("text.year", "Year");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-        return new JDatePickerImpl(datePanel, new DateLabelFormatter());
+
+        //default value
+        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        datePicker.getModel().setDate(LocalDate.now().getYear(), LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth());
+        datePicker.getModel().setSelected(true);
+
+        return datePicker;
     }
 
     public TaskManager getTaskManager() {
@@ -326,7 +333,7 @@ public class ToDoAppGUI {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ConfigurationManager.init(args[0]);
+            ConfigurationManager.init("/config.properties");
             ToDoAppGUI app = new ToDoAppGUI();
             app.createAndShowGUI();
         });

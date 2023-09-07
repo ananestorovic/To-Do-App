@@ -10,7 +10,7 @@ import java.util.Map;
 @Aspect
 public class DateTaskLimitAspect {
 
-    private int maxTasksPerDate = 5;
+    private int maxTasksPerDate = 15;
     private Map<LocalDate, Integer> taskCountByDate = new HashMap<>();
 
     @Pointcut("execution(public * tasks.TaskManager.addTask(tasks.Task)) && args(task)")

@@ -1,3 +1,4 @@
+import config.ConfigurationManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,14 +20,15 @@ class ToDoAppGUITest {
 
     @BeforeEach
     void setUp() {
+        ConfigurationManager.init("/config.properties");
         todoAppGUI = new ToDoAppGUI();
         todoAppGUI.createAndShowGUI();
         taskManager = todoAppGUI.getTaskManager();
     }
 
     private void addTestTasks() {
-        taskManager.addTask(new Task("Test Task1", LocalDate.of(2023, 8, 10), Priority.HIGH));
-        taskManager.addTask(new Task("Test Task2", LocalDate.of(2023, 8, 12), Priority.LOW));
+        taskManager.addTask(new Task("Test Task1", LocalDate.of(2024, 8, 10), Priority.HIGH));
+        taskManager.addTask(new Task("Test Task2", LocalDate.of(2024, 8, 12), Priority.LOW));
     }
 
     @Test
@@ -50,7 +52,7 @@ class ToDoAppGUITest {
     void testSearchByDate() {
         addTestTasks();
 
-        LocalDate date = LocalDate.of(2023, 8, 10);
+        LocalDate date = LocalDate.of(2024, 8, 10);
         todoAppGUI.setDatePickerDate2(date);
         todoAppGUI.clickSearchDateButton();
 
@@ -67,8 +69,8 @@ class ToDoAppGUITest {
     void testSearchByDateInterval() {
         addTestTasks();
 
-        LocalDate startDate = LocalDate.of(2023, 8, 9);
-        LocalDate endDate = LocalDate.of(2023, 8, 11);
+        LocalDate startDate = LocalDate.of(2024, 8, 9);
+        LocalDate endDate = LocalDate.of(2024, 8, 11);
         todoAppGUI.setDatePickerDate3(startDate);
         todoAppGUI.setDatePickerDate4(endDate);
         todoAppGUI.clickSearchDateIntervalButton();
@@ -78,7 +80,7 @@ class ToDoAppGUITest {
         assertEquals(1, searchResults.size());
         Task foundTask = searchResults.get(0);
         assertEquals("Test Task1", foundTask.getTitle());
-        assertEquals(LocalDate.of(2023, 8, 10), foundTask.getDate());
+        assertEquals(LocalDate.of(2024, 8, 10), foundTask.getDate());
         assertEquals(Priority.HIGH, foundTask.getPriority());
     }
 
@@ -95,7 +97,7 @@ class ToDoAppGUITest {
         assertEquals(1, searchResults.size());
         Task foundTask = searchResults.get(0);
         assertEquals(title, foundTask.getTitle());
-        assertEquals(LocalDate.of(2023, 8, 10), foundTask.getDate());
+        assertEquals(LocalDate.of(2024, 8, 10), foundTask.getDate());
         assertEquals(Priority.HIGH, foundTask.getPriority());
     }
 
@@ -112,7 +114,7 @@ class ToDoAppGUITest {
         assertEquals(1, searchResults.size());
         Task foundTask = searchResults.get(0);
         assertEquals("Test Task1", foundTask.getTitle());
-        assertEquals(LocalDate.of(2023, 8, 10), foundTask.getDate());
+        assertEquals(LocalDate.of(2024, 8, 10), foundTask.getDate());
         assertEquals(priority, foundTask.getPriority());
     }
 
@@ -120,7 +122,7 @@ class ToDoAppGUITest {
     void testDeleteByDate(){
         addTestTasks();
 
-        LocalDate targetDate = LocalDate.of(2023, 8, 10);
+        LocalDate targetDate = LocalDate.of(2024, 8, 10);
         todoAppGUI.setDatePickerDate5(targetDate);
         todoAppGUI.clickDeleteByDateButton();
 
@@ -135,8 +137,8 @@ class ToDoAppGUITest {
     void testDeleteByDateInterval(){
         addTestTasks();
 
-        LocalDate startDate = LocalDate.of(2023, 8, 9);
-        LocalDate endDate = LocalDate.of(2023, 8, 11);
+        LocalDate startDate = LocalDate.of(2024, 8, 9);
+        LocalDate endDate = LocalDate.of(2024, 8, 11);
         todoAppGUI.setDatePickerDate6(startDate);
         todoAppGUI.setDatePickerDate7(endDate);
         todoAppGUI.clickDeleteByDateIntervalButton();
@@ -146,7 +148,7 @@ class ToDoAppGUITest {
         assertEquals(1, searchResults.size());
         Task foundTask = searchResults.get(0);
         assertEquals("Test Task2", foundTask.getTitle());
-        assertEquals(LocalDate.of(2023, 8, 12), foundTask.getDate());
+        assertEquals(LocalDate.of(2024, 8, 12), foundTask.getDate());
         assertEquals(Priority.LOW, foundTask.getPriority());
     }
 }
