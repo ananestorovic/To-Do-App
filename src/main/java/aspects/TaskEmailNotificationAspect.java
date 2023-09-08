@@ -10,7 +10,7 @@ import tasks.Task;
 @Aspect
 public class TaskEmailNotificationAspect {
 
-    @Pointcut("execution(public * tasks.TaskManager.addTask(tasks.Task)) && args(task)")
+    @Pointcut("execution(private * tasks.TaskManager.addTaskToTasks(tasks.Task)) && args(task)")
     public void addTaskMethod(Task task) {}
 
 

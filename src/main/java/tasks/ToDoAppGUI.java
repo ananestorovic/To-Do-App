@@ -1,8 +1,13 @@
 package tasks;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.text.JTextComponent;
+import java.awt.*;
 import java.time.LocalDate;
 
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.DarculaTheme;
 import config.ConfigurationManager;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -17,7 +22,6 @@ import java.util.Properties;
 
 public class ToDoAppGUI {
     private final TaskManager taskManager = new TaskManager();
-
     private final JTextField taskTitleField = new JTextField(20);
     private final JTextField searchTitleField = new JTextField(20);
     private final JTextArea resultTextArea = new JTextArea(10, 30);
@@ -44,9 +48,11 @@ public class ToDoAppGUI {
     private JDatePickerImpl datePicker7;
 
     public void createAndShowGUI() {
+        //LafManager.install(new DarculaTheme());
         JFrame frame = new JFrame("To-Do App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+
 
         frame.add(createInputPanel());
         frame.add(createSearchDatePanel());
@@ -65,6 +71,7 @@ public class ToDoAppGUI {
         JPanel inputPanel = new JPanel();
 
         inputPanel.add(new JLabel("Title:"));
+        setDarkTextComponentUI(taskTitleField);
         inputPanel.add(taskTitleField);
 
         inputPanel.add(new JLabel("Date:"));
@@ -72,7 +79,9 @@ public class ToDoAppGUI {
         inputPanel.add(datePicker1);
 
         inputPanel.add(new JLabel("Priority:"));
+        setDarkComboBoxUI(priorityComboBox);
         inputPanel.add(priorityComboBox);
+        setDarkButtonUI(addButton);
         inputPanel.add(addButton);
         addButton.addActionListener(e -> addTask());
 
@@ -82,9 +91,11 @@ public class ToDoAppGUI {
     private JPanel createSearchDatePanel() {
         JPanel searchDatePanel = new JPanel();
 
+
         searchDatePanel.add(new JLabel("Search by date:"));
         datePicker2 = initializeDatePicker();
         searchDatePanel.add(datePicker2);
+        setDarkButtonUI(searchDateButton);
         searchDatePanel.add(searchDateButton);
         searchDateButton.addActionListener(e -> searchByDate());
 
@@ -100,6 +111,7 @@ public class ToDoAppGUI {
 
         searchDateIntervalPanel.add(datePicker3);
         searchDateIntervalPanel.add(datePicker4);
+        setDarkButtonUI(searchDateIntervalButton);
         searchDateIntervalPanel.add(searchDateIntervalButton);
         searchDateIntervalButton.addActionListener(e -> searchByDateInterval());
 
@@ -110,7 +122,9 @@ public class ToDoAppGUI {
         JPanel searchTitlePanel = new JPanel();
 
         searchTitlePanel.add(new JLabel("Search by title:"));
+        setDarkTextComponentUI(searchTitleField);
         searchTitlePanel.add(searchTitleField);
+        setDarkButtonUI(searchTitleButton);
         searchTitlePanel.add(searchTitleButton);
         searchTitleButton.addActionListener(e -> searchByTitle());
 
@@ -121,7 +135,9 @@ public class ToDoAppGUI {
         JPanel searchPriorityPanel = new JPanel();
 
         searchPriorityPanel.add(new JLabel("Search by priority:"));
+        setDarkComboBoxUI(searchPriorityComboBox);
         searchPriorityPanel.add(searchPriorityComboBox);
+        setDarkButtonUI(searchPriorityButton);
         searchPriorityPanel.add(searchPriorityButton);
         searchPriorityButton.addActionListener(e -> searchByPriority());
 
@@ -134,6 +150,7 @@ public class ToDoAppGUI {
         deleteByDatePanel.add(new JLabel("Delete tasks for the selected date:"));
         datePicker5 = initializeDatePicker();
         deleteByDatePanel.add(datePicker5);
+        setDarkButtonUI(deleteByDateButton);
         deleteByDatePanel.add(deleteByDateButton);
         deleteByDateButton.addActionListener(e -> deleteByDate());
 
@@ -148,6 +165,7 @@ public class ToDoAppGUI {
         datePicker7 = initializeDatePicker();
         deleteByDateIntervalPanel.add(datePicker6);
         deleteByDateIntervalPanel.add(datePicker7);
+        setDarkButtonUI(deleteByDateIntervalButton);
         deleteByDateIntervalPanel.add(deleteByDateIntervalButton);
         deleteByDateIntervalButton.addActionListener(e -> deleteByDateInterval());
 
@@ -157,6 +175,7 @@ public class ToDoAppGUI {
     private JPanel createResultsPanel() {
         JPanel resultsPanel = new JPanel();
         resultsPanel.add(new JLabel("Last search:"));
+        setDarkTextComponentUI(resultTextArea);
         JScrollPane scrollPane = new JScrollPane(resultTextArea);
         resultsPanel.add(scrollPane);
         return resultsPanel;
@@ -329,6 +348,26 @@ public class ToDoAppGUI {
             }
         }
         return searchResults;
+    }
+
+    private void setDarkTextComponentUI(JTextComponent textComponent) {
+        textComponent.setBackground(new Color(60,63,65));
+        textComponent.setForeground(Color.WHITE);
+        textComponent.setCaretColor(Color.WHITE);
+        textComponent.setSelectedTextColor(new Color(70,109,148));
+        textComponent.setBorder(new LineBorder(Color.GRAY));
+    }
+
+    private void setDarkButtonUI(JButton button) {
+        button.setBackground(new Color(60, 63, 65));
+        button.setForeground(Color.WHITE);
+    }
+
+    private void setDarkComboBoxUI(JComboBox<?> comboBox) {
+        comboBox.setBackground(new Color(60, 63, 65));
+        comboBox.setForeground(Color.WHITE);
+        comboBox.setSelectedItem(new Color(70,109,148));
+        comboBox.setBorder(new LineBorder(Color.GRAY));
     }
 
     public static void main(String[] args) {

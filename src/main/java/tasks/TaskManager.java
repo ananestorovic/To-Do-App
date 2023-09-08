@@ -18,9 +18,18 @@ public class TaskManager {
         this.tasks = tasks;
     }
 
-    public void addTask(Task task){
+    public void addTask(Task task) throws IllegalArgumentException {
+        if (task.getTitle().equals("") || task.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Task title cannot be empty or null. Task was not added.");
+        } else {
+            addTaskToTasks(task);
+        }
+    }
+
+    private void addTaskToTasks(Task task){
         tasks.add(task);
     }
+
 
     public List<Task> searchByDate(LocalDate targetDate) {
         return tasks.stream()

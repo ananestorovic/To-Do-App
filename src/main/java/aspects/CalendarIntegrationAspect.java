@@ -22,7 +22,7 @@ public class CalendarIntegrationAspect {
         this.calendar = CalendarAuth.getCalendarService();
     }
 
-    @Before("execution(public * tasks.TaskManager.addTask(tasks.Task)) && args(task)")
+    @Before("execution(private * tasks.TaskManager.addTaskToTasks(tasks.Task)) && args(task)")
     public void addTaskToGoogleCalendar(tasks.Task task) {
         try {
             Event event = createEventFromTask(task);

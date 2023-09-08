@@ -119,7 +119,7 @@ class ToDoAppGUITest {
     }
 
     @Test
-    void testDeleteByDate(){
+    void testDeleteByDate() {
         addTestTasks();
 
         LocalDate targetDate = LocalDate.of(2024, 8, 10);
@@ -134,7 +134,7 @@ class ToDoAppGUITest {
     }
 
     @Test
-    void testDeleteByDateInterval(){
+    void testDeleteByDateInterval() {
         addTestTasks();
 
         LocalDate startDate = LocalDate.of(2024, 8, 9);
