@@ -46,7 +46,7 @@ public class EmailSender {
 
             message.setContent(multipart);
             Transport.send(message);
-            logger.info("Email sent successfully.");
+            System.out.println("INFO: Email sent successfully.");
         } catch (MessagingException e) {
             logger.log(Level.SEVERE, "Error sending email:{0}", e.getMessage());
         }
