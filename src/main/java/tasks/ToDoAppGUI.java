@@ -48,7 +48,6 @@ public class ToDoAppGUI {
     private JDatePickerImpl datePicker7;
 
     public void createAndShowGUI() {
-        //LafManager.install(new DarculaTheme());
         JFrame frame = new JFrame("To-Do App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
@@ -372,6 +371,7 @@ public class ToDoAppGUI {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            LafManager.install(new DarculaTheme());
             ConfigurationManager.init("/config.properties");
             ToDoAppGUI app = new ToDoAppGUI();
             app.createAndShowGUI();

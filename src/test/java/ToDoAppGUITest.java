@@ -1,4 +1,7 @@
+import com.github.weisj.darklaf.LafManager;
+import com.github.weisj.darklaf.theme.DarculaTheme;
 import config.ConfigurationManager;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +20,12 @@ class ToDoAppGUITest {
 
     private ToDoAppGUI todoAppGUI;
     private TaskManager taskManager;
+
+
+    @BeforeAll
+    static void installDarculaTheme() {
+        LafManager.install(new DarculaTheme());
+    }
 
     @BeforeEach
     void setUp() {

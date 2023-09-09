@@ -45,11 +45,16 @@ public class TaskManager {
                 .collect(Collectors.toList());
     }
 
-    public List<Task> searchByTitle(String targetTitle) {
-        return tasks.stream()
-                .filter(task -> task.getTitle().equals(targetTitle))
-                .sorted(Comparator.comparing(Task::getPriority).reversed())
-                .collect(Collectors.toList());
+    public List<Task> searchByTitle(String targetTitle) throws IllegalArgumentException {
+        if (targetTitle.equals("") || targetTitle.isEmpty()) {
+            throw new IllegalArgumentException("The search title cannot be empty or null.");
+        } else {
+            return tasks.stream()
+                    .filter(task -> task.getTitle().equals(targetTitle))
+                    .sorted(Comparator.comparing(Task::getPriority).reversed())
+                    .collect(Collectors.toList());
+        }
+
     }
 
     public void deleteByDate(LocalDate targetDate) {

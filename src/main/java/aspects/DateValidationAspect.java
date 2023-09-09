@@ -28,7 +28,7 @@ public class DateValidationAspect {
         LocalDate today = LocalDate.now();
         LocalDate date = task.getDate();
         if (date.isBefore(today)) {
-            throw new IllegalArgumentException("The date must not be in the past.");
+            throw new IllegalArgumentException("Date cannot be in the past.");
         }
         return proceedingJoinPoint.proceed();
     }
